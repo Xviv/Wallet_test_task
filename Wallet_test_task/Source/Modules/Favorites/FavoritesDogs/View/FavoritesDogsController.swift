@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FavoritesDogsControllerOutput: class {
-    func setupDatasource(with data: CommonBreedProtocol)
+    func setupDatasource(with data: CommonBreedProtocol?)
     func showShareController(with image: UIImage)
     func setTitle(_ title: String)
 }
@@ -79,7 +79,7 @@ class FavoritesDogsController: UIViewController {
 //MARK: - Output
 
 extension FavoritesDogsController: FavoritesDogsControllerOutput {
-    func setupDatasource(with data: CommonBreedProtocol) {
+    func setupDatasource(with data: CommonBreedProtocol?) {
         datasourceAndDelegate.breed = data
         collectionView.reloadData()
     }

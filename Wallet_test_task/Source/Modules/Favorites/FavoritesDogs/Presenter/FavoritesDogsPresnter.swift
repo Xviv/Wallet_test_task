@@ -47,7 +47,10 @@ class FavoritesDogsPresenter {
                     self?.currentImageUrl = breed.localURLs.first
                     self?.view.setupDatasource(with: breed)
                 case .update(let results, deletions: _, insertions: _, modifications: _):
-                    guard let breed = results.first else { return }
+                    guard let breed = results.first else {
+                        self?.view.setupDatasource(with: nil)
+                        return
+                    }
                     self?.view.setupDatasource(with: breed)
                 case .error(let error):
                     print(error)
@@ -61,7 +64,10 @@ class FavoritesDogsPresenter {
                     self?.currentImageUrl = breed.localURLs.first
                     self?.view.setupDatasource(with: breed)
                 case .update(let results, deletions: _, insertions: _, modifications: _):
-                    guard let breed = results.first else { return }
+                    guard let breed = results.first else {
+                        self?.view.setupDatasource(with: nil)
+                        return
+                    }
                     self?.view.setupDatasource(with: breed)
                 case .error(let error):
                     print(error)
