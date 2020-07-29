@@ -40,38 +40,49 @@ class FavoritesDogsPresenter {
     //MARK: - Private methods
     private func getLocalImagesUrls() {
         if let breed = breed {
-            realmManager.observe(type: RBreed.self, primaryKey: breed) {[weak self] (changes) in
-                switch changes {
-                case .initial(let results):
-                    guard let breed = results.first else { return }
-                    self?.currentImageUrl = breed.localURLs.first
-                    self?.view.setupDatasource(with: breed)
-                case .update(let results, deletions: _, insertions: _, modifications: _):
-                    guard let breed = results.first else {
-                        self?.view.setupDatasource(with: nil)
-                        return
-                    }
-                    self?.view.setupDatasource(with: breed)
-                case .error(let error):
-                    print(error)
-                }
-            }
+            observeBreed(breed)
         } else if let subBreed = subBreed {
-            realmManager.observe(type: RSubBreed.self, primaryKey: subBreed) {[weak self] (changes) in
-                switch changes {
-                case .initial(let results):
-                    guard let breed = results.first else { return }
-                    self?.currentImageUrl = breed.localURLs.first
-                    self?.view.setupDatasource(with: breed)
-                case .update(let results, deletions: _, insertions: _, modifications: _):
-                    guard let breed = results.first else {
-                        self?.view.setupDatasource(with: nil)
-                        return
-                    }
-                    self?.view.setupDatasource(with: breed)
-                case .error(let error):
-                    print(error)
+            observeSubBreed(subBreed)
+        }
+    }
+    
+    private func observeBreed(_ breed: String) {
+        realmManager.observe(type: RBreed.self, primaryKey: breed) {[weak self] (changes) in
+            switch changes {
+            case .initial(let results):
+                guard let breed = results.first else { return }
+                self?.currentImageUrl = breed.localURLs.first
+                self?.view.setupDatasource(with: breed)
+            case .update(let results, deletions: _, insertions: _, modifications: _):
+                guard let breed = results.first else {
+                    self?.view.setupDatasource(with: nil)
+                    self?.coordinator?.pop()
+                    return
                 }
+                self?.view.setupDatasource(with: breed)
+            case .error(let error):
+                print(error)
+            }
+        }
+
+    }
+    
+    private func observeSubBreed(_ subBreed: String) {
+        realmManager.observe(type: RSubBreed.self, primaryKey: subBreed) {[weak self] (changes) in
+            switch changes {
+            case .initial(let results):
+                guard let breed = results.first else { return }
+                self?.currentImageUrl = breed.localURLs.first
+                self?.view.setupDatasource(with: breed)
+            case .update(let results, deletions: _, insertions: _, modifications: _):
+                guard let breed = results.first else {
+                    self?.view.setupDatasource(with: nil)
+                    self?.coordinator?.pop()
+                    return
+                }
+                self?.view.setupDatasource(with: breed)
+            case .error(let error):
+                print(error)
             }
         }
     }
