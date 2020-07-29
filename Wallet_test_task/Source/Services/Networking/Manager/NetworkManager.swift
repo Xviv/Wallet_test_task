@@ -66,7 +66,7 @@ extension NetworkManager {
                 do {
                     let apiResponse = try JSONDecoder().decode(type, from: responseData)
                     completion(.success(apiResponse))
-                }catch {
+                } catch {
                     completion(.failure(NetworkResponse.unableToDecode.rawValue))
                 }
             case .failure(let networkFailureError):

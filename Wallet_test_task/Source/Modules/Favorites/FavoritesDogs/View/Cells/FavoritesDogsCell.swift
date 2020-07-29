@@ -10,6 +10,7 @@ import UIKit
 
 class FavoritesDogsCell: UICollectionViewCell {
     
+    //MARK: - Properties
     var localUrlString: String? {
         didSet {
             guard let urlString = localUrlString else { return }
@@ -26,6 +27,8 @@ class FavoritesDogsCell: UICollectionViewCell {
     
     var buttonTapAction: ((_ url: String) -> ())?
     
+    
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -35,6 +38,7 @@ class FavoritesDogsCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Reuse
     override func prepareForReuse() {
         imageView.image = nil
         likeButton.isSelected = false
